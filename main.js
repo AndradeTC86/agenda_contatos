@@ -1,25 +1,43 @@
+const form = document.getElementById('form-contato')
+
 let linhas = ''
-const form = document.getElementById('form-atividade')
-const imgAprovado = '<img src="./images/aprovado.png" alt="Emoji celebrando" />'
-const imgReprovado = '<img src="./images/reprovado.png" alt="Emoji decepcionado" />'
+const telefones = []
+
 
 form.addEventListener('submit', function (event) {
     event.preventDefault()
+    adicionarLinha()
+    atualizarTabela()
+    atualizarQuantidadeContatos()
+})
 
-    const inputNomeMateria = document.getElementById('nome-materia')
-    const inputNotaMateria = document.getElementById('nota-materia')   
+function adicionarLinha(){
+    const inputNomeContato = document.getElementById('nome-contato')
+    const inputNumeroContato = document.getElementById('telefone-contato')
+    
+    if (telefones.includes(inputNumeroContato.value)){
+        alert(`O número de telefone ${inputNumeroContato.value} já foi incluído na lista`)
+    } else{    
+    telefones.push(inputNumeroContato.value)
 
     let linha = '<tr>'
-    linha += `<td>${inputNomeMateria.value}</td>`
-    linha += `<td>${inputNotaMateria.value}</td>`
-    linha += `<td>${inputNotaMateria.value >= 7 ? imgAprovado : imgReprovado}</td>`
+    linha += `<td>${inputNomeContato.value}</td>`
+    linha += `<td>${inputNumeroContato.value}</td>`    
     linha += '</tr>'
 
     linhas += linha
+    }
 
+    inputNomeContato.value = ''
+    inputNumeroContato.value = ''
+}
+
+function atualizarTabela(){
     const corpoTabela = document.querySelector('tbody')
     corpoTabela.innerHTML = linhas
+}
 
-    inputNomeMateria.value = ''
-    inputNotaMateria.value = ''
-})
+function atualizarQuantidadeContatos() {
+    const quantidadeContatos = document.getElementById('quantidade-contatos');
+    quantidadeContatos.textContent = telefones.length;
+}
